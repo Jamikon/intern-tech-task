@@ -94,7 +94,7 @@ namespace ecommerce
                 }
                 
 
-                products.Remove(product);
+                Console.WriteLine("unable to remove product. product is not in cart");
             }
             catch (Exception e)
             {
