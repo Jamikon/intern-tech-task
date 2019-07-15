@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,7 +46,6 @@ namespace ecommerce
             }
         }
 
-
         /// <summary>
         /// destructor. nothing to destruct since GC takes care of everything used so far...
         /// </summary>
@@ -83,11 +82,17 @@ namespace ecommerce
         public void removeProduct(Product product)
         {
             try
-            {
-
-                // products list does not contain product
-                // a bit redundant since try/catch will handle it either way regardless of this assertion
-                if (!products.Contains(product)) throw new ArgumentOutOfRangeException();
+            { 
+                
+                foreach (Product pd in products)
+                {
+                    if (pd.productID == product.productID)
+                    {
+                        products.Remove(pd);
+                        break;
+                    }
+                }
+                
 
                 products.Remove(product);
             }
@@ -97,64 +102,6 @@ namespace ecommerce
                 Console.WriteLine(e);
             }
         }
-
-        /// <summary>
-        /// returns sum of products in this cart
-        /// </summary>
-        /// <returns> sum of products in this cart </returns>
-        public int numberOfProducts()
-        {
-            // no need for error handling since list cant be set to null and is always
-            // initialised at construction
-
-            return products.Count;
-        }
-
-        /// <summary>
-        /// returns current products
-        /// </summary>
-        /// <returns> products stored in this cart </returns>
-        public List<Product> GetProducts()
-        {
-            // no need for error handling since list is always initialised
-
-            return new List<Product>(products);
-        }
-
-        /// <summary>
-        /// returns a string representing contents of cart
-        /// </summary>
-        /// <returns> a string that represents contents of cart, including cart ID and user ID </returns>
-        public string cartInfoInString()
-        {
-            // no need for error handling since assertions on functions prevent addition of erroneous data
-
-
-            string str = "", tab = "\t|";    // str = output
-            int sum = numberOfProducts();   // in case more products added/removed before this task completes fully
-
-
-            str += "Cart ID: " + cartID + "\nUser ID of Cart: " + userID + "\nItems In Cart: " + sum;
-            str += "\nItems:" +
-                   "\n\n\tNumber\t|PID\t|Name";
-            str += "\n\t........|.......|..........................................................\n";
-
-            int i = 1;
-
-            // add each product
-            foreach (Product product in products)
-            {
-                str += "\t" + i + tab + product.productID + tab + product.name + "\n";
-                i++;
-            }
-
-
-            return str + "\n- end of cart -";
-
-        }
-
-
-
 
     }
 }
